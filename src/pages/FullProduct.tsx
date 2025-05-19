@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { CartProductT, ProductT } from "./Products";
 import {
   AspectRatio,
@@ -69,7 +69,7 @@ export default function FullProduct({ addToCart }: Props) {
         },
       })
         .then((res) => res.json())
-        .then((json) => {getProduct()});
+        .then(() => {getProduct()});
     }
   }
 

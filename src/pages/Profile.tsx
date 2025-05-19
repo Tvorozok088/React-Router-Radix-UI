@@ -6,7 +6,7 @@ import {
   Separator,
   Strong,
 } from "@radix-ui/themes";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Product from "../components/Product";
 import { ProductT } from "./Products";
 
