@@ -10,6 +10,7 @@ import {
 
 import CartItem from "./CartItem";
 import { CartProductT, ProductT } from "../pages/Products";
+import Buy from "./Buy";
 
 type Props = {
   addToCart: (product: ProductT | CartProductT) => void;
@@ -70,7 +71,7 @@ export default function Cart({
                 Close
               </Button>
             </Dialog.Close>
-            <Button>Buy</Button>
+            <Buy productsCount={productsCount} fullPrice={fullPrice} />
           </Flex>
         </Flex>
       </Dialog.Content>

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Products, { CartProductT, ProductT } from "./pages/Products";
@@ -10,6 +10,10 @@ import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import FullProduct from "./pages/FullProduct";
 import Error from "./pages/Error";
 import { Slide, toast } from "react-toastify";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./pages/Profile";
 
 function App() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -17,18 +21,24 @@ function App() {
     getCartProduct()
   );
 
+  const whiteList = ["/register", "/login", "/error"];
+
+  const location = useLocation();
+
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartProducts));
   }, [cartProducts]);
 
-  useEffect(() =>{
-    getScroll()
-    function saveScroll(){
-      localStorage.setItem('scroll', String(window.scrollY))
+  useEffect(() => {
+    getScroll();
+    function saveScroll() {
+      localStorage.setItem("scroll", String(window.scrollY));
     }
-    window.addEventListener('scroll',saveScroll)
-    return () => {window.removeEventListener('scroll',saveScroll)}
-  },[])
+    window.addEventListener("scroll", saveScroll);
+    return () => {
+      window.removeEventListener("scroll", saveScroll);
+    };
+  }, []);
 
   function toggleTheme() {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
@@ -96,26 +106,56 @@ function App() {
 
   return (
     <Theme accentColor="orange" radius="large" appearance={theme}>
-      <Header />
+      {!whiteList.includes(location.pathname) && <Header />}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/products"
           element={
-            <Products
-              addToCart={addToCart}
-              cartProducts={cartProducts}
-              minusCartProduct={minusCartProduct}
-              deleteCartProduct={deleteCartProduct}
-            />
+            <ProtectedRoute>
+              <Products
+                addToCart={addToCart}
+                cartProducts={cartProducts}
+                minusCartProduct={minusCartProduct}
+                deleteCartProduct={deleteCartProduct}
+              />
+            </ProtectedRoute>
           }
         />
-        <Route path="/contact" element={<Contact />} />
+        <Route
+          path="/contact"
+          element={
+            <ProtectedRoute>
+              <Contact />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/error" element={<Error />} />
         <Route
           path="/products/:id"
-          element={<FullProduct addToCart={addToCart} />}
+          element={
+            <ProtectedRoute>
+              <FullProduct addToCart={addToCart} />
+            </ProtectedRoute>
+          }
         />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile/>
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <IconButton onClick={toggleTheme} className="icon-btn">

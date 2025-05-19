@@ -12,9 +12,11 @@ export type ProductT = {
   image: string;
   price: number;
   rating: {
-    count: number;
+    id: number;
     rate: number;
-  };
+    name: string;
+    text: string;
+  }[];
   title: string;
 };
 export type CartProductT = {
@@ -24,9 +26,11 @@ export type CartProductT = {
   image: string;
   price: number;
   rating: {
-    count: number;
+    id: number;
     rate: number;
-  };
+    name: string;
+    text: string;
+  }[];
   title: string;
   count: number;
 };
@@ -47,7 +51,7 @@ export default function Products({
   const [activeCategory, setActiveCategory] = useState<string>(
     getActiveCategory()
   );
-  const [sort, setSort] = useState<"asc" | "desc">("asc");
+  const [sort, setSort] = useState<"price" | "-price">("price");
   const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -79,12 +83,12 @@ export default function Products({
 
   const url =
     activeCategory === "all"
-      ? "https://fakestoreapi.com/products"
-      : `https://fakestoreapi.com/products/category/${activeCategory}`;
+      ? "https://9ef2d180e93994dd.mokky.dev/products?"
+      : `https://9ef2d180e93994dd.mokky.dev/products?category=${activeCategory}&`;
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${url}?sort=${sort}`)
+    fetch(`${url}sortBy=${sort}`)
       .then((res) => res.json())
       .then((json) => setProducts(json))
       .catch(() => navigate("/error"))

@@ -15,7 +15,7 @@ import { Slide, toast } from "react-toastify";
 
 type Props = {
   product: ProductT;
-  addToCart: (product: ProductT | CartProductT) => void;
+  addToCart: null | ((product: ProductT | CartProductT) => void);
 };
 
 export default function Product({ product, addToCart }: Props) {
@@ -42,25 +42,27 @@ export default function Product({ product, addToCart }: Props) {
         </Heading>
         <Flex justify={"between"} align={"center"} gap={"2"}>
           <Text>{product.price} $</Text>
-          <Button
-            onClick={() => {
-              addToCart(product);
-              toast('Added to cart', {
-                position: "bottom-left",
-                autoClose: 1500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: 0,
-                theme: "light",
-                type: 'success',
-                transition: Slide,
-              });
-            }}
-          >
-            <ArchiveIcon /> Add
-          </Button>
+          {addToCart && (
+            <Button
+              onClick={() => {
+                addToCart(product);
+                toast("Added to cart", {
+                  position: "bottom-left",
+                  autoClose: 1500,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: false,
+                  draggable: true,
+                  progress: 0,
+                  theme: "light",
+                  type: "success",
+                  transition: Slide,
+                });
+              }}
+            >
+              <ArchiveIcon /> Add
+            </Button>
+          )}
         </Flex>
       </Card>
     </Box>

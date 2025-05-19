@@ -9,8 +9,8 @@ import { CartProductT, ProductT } from "../pages/Products";
 type Props = {
   activeCategory: string;
   setActiveCategory: (category: string) => void;
-  sort: "asc" | "desc";
-  setSort: (sort: "asc" | "desc") => void;
+  sort: "price" | "-price";
+  setSort: (sort: "price" | "-price") => void;
   search: string;
   setSearch: (search: string) => void;
   addToCart: (product: ProductT | CartProductT) => void;
@@ -57,7 +57,7 @@ export default function Filter({
 
   useEffect(() => {
     setLoading(true);
-    fetch("https://fakestoreapi.com/products/categories")
+    fetch("https://9ef2d180e93994dd.mokky.dev/categories")
       .then((res) => res.json())
       .then((json) => setCategories(json))
       .catch(() => navigate("/error"))
@@ -93,8 +93,8 @@ export default function Filter({
         <Select.Root value={sort} onValueChange={setSort}>
           <Select.Trigger />
           <Select.Content>
-            <Select.Item value="asc">Asc</Select.Item>
-            <Select.Item value="desc">Desc</Select.Item>
+            <Select.Item value="price">↑ price</Select.Item>
+            <Select.Item value="-price">↓ price</Select.Item>
           </Select.Content>
         </Select.Root>
         <Cart
