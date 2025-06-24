@@ -16,20 +16,21 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Profile from "./pages/Profile";
 
 function App() {
+  const email = localStorage.getItem("email") || "";
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [cartProducts, setCartProducts] = useState<CartProductT[]>(
     getCartProduct()
   );
-    const email = localStorage.getItem("email")||'';
-
 
   const whiteList = ["/register", "/login", "/error"];
 
   const location = useLocation();
 
   useEffect(() => {
-    localStorage.setItem(`${email}-cart`, JSON.stringify(cartProducts));
-  }, [cartProducts]);
+    if (email) {
+      localStorage.setItem(`${email}-cart`, JSON.stringify(cartProducts));
+    }
+  }, [cartProducts, email]);
 
   useEffect(() => {
     getScroll();
@@ -152,7 +153,7 @@ function App() {
           path="/profile"
           element={
             <ProtectedRoute>
-              <Profile/>
+              <Profile />
             </ProtectedRoute>
           }
         />
