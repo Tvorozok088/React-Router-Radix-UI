@@ -30,7 +30,7 @@ function App() {
     if (email) {
       localStorage.setItem(`${email}-cart`, JSON.stringify(cartProducts));
     }
-  }, [cartProducts, email]);
+  }, [cartProducts]);
 
   useEffect(() => {
     getScroll();
