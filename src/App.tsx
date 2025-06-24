@@ -20,13 +20,15 @@ function App() {
   const [cartProducts, setCartProducts] = useState<CartProductT[]>(
     getCartProduct()
   );
+    const email = localStorage.getItem("email")||'';
+
 
   const whiteList = ["/register", "/login", "/error"];
 
   const location = useLocation();
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartProducts));
+    localStorage.setItem(`${email}-cart`, JSON.stringify(cartProducts));
   }, [cartProducts]);
 
   useEffect(() => {
@@ -81,7 +83,7 @@ function App() {
   }
 
   function getCartProduct() {
-    const saveCart = localStorage.getItem("cart");
+    const saveCart = localStorage.getItem(`${email}-cart`);
     if (saveCart) {
       return JSON.parse(saveCart);
     }
